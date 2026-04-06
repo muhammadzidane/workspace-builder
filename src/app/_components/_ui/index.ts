@@ -1,10 +1,10 @@
-export { default as Chair } from "./chair";
 export { default as DraggableModel } from "./draggable-model";
-export { default as Floor } from "./floor";
 export { default as Footer } from "./footer";
 export { default as Main } from "./main";
+export { default as Model } from "./model";
 export { default as Monitor } from "./monitor";
 export { default as Navbar } from "./navbar";
+export { default as Room } from "./room";
 export { default as Scene } from "./scene";
 export { default as Sidebar } from "./sidebar";
 export { default as Stepper } from "./stepper";

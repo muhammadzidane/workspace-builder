@@ -8,12 +8,15 @@ import * as THREE from "three";
 
 type Props = {
   children: React.ReactNode;
+  initialPosition?: [number, number, number];
   setDragging?: (v: boolean) => void;
 };
 
-const DraggableModel = ({ children, setDragging }: Props) => {
+const DraggableModel = ({ children, initialPosition, setDragging }: Props) => {
   const ref = useRef<THREE.Group>(null);
   const dragging = useRef(false);
+  const rotating = useRef(false);
+  const lastPointerPosition = useRef({ x: 0, y: 0 });
 
   const { camera, pointer, raycaster } = useThree();
 
@@ -24,13 +27,17 @@ const DraggableModel = ({ children, setDragging }: Props) => {
   const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     dragging.current = true;
+    rotating.current = e.shiftKey; // Hold Shift to rotate
     setDragging?.(true);
+
+    lastPointerPosition.current = { x: pointer.x, y: pointer.y };
 
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const onPointerUp = (e: ThreeEvent<PointerEvent>) => {
     dragging.current = false;
+    rotating.current = false;
     setDragging?.(false);
 
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
@@ -39,11 +46,23 @@ const DraggableModel = ({ children, setDragging }: Props) => {
   const onPointerMove = () => {
     if (!dragging.current || !ref.current) return;
 
-    raycaster.setFromCamera(pointer, camera);
-    raycaster.ray.intersectPlane(plane, intersectPoint);
+    if (rotating.current) {
+      // Rotation logic
+      const deltaX = pointer.x - lastPointerPosition.current.x;
+      const deltaY = pointer.y - lastPointerPosition.current.y;
 
-    ref.current.position.x = intersectPoint.x;
-    ref.current.position.z = intersectPoint.z;
+      ref.current.rotation.y += deltaX * 2; // Rotate around Y axis
+      ref.current.rotation.x += deltaY * 2; // Rotate around X axis
+
+      lastPointerPosition.current = { x: pointer.x, y: pointer.y };
+    } else {
+      // Dragging logic
+      raycaster.setFromCamera(pointer, camera);
+      raycaster.ray.intersectPlane(plane, intersectPoint);
+
+      ref.current.position.x = intersectPoint.x;
+      ref.current.position.z = intersectPoint.z;
+    }
   };
 
   return (
@@ -51,6 +70,7 @@ const DraggableModel = ({ children, setDragging }: Props) => {
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      position={initialPosition}
       ref={ref}
     >
       {children}

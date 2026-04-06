@@ -2,20 +2,13 @@
 
 import { useState } from "react";
 
-import { Chair, Floor, Scene } from "@/app/_components";
-
-type ModelItem = {
-  id: number;
-};
+import { Model, Room, Scene } from "@/app/_components";
 
 const Home = () => {
   const [dragging, setDragging] = useState(false);
-  const [models, setModels] = useState<ModelItem[]>([]);
-  const [idCounter, setIdCounter] = useState(0);
 
   const addModel = () => {
-    setModels((prev) => [...prev, { id: idCounter }]);
-    setIdCounter((prev) => prev + 1);
+    //
   };
 
   return (
@@ -23,15 +16,30 @@ const Home = () => {
       {/* Sidebar */}
       <div className="w-1/4 p-4 flex flex-col gap-6 border-r">
         <button onClick={addModel}>Add Model</button>
+
+        <div className="text-sm text-gray-600">
+          <p>
+            <strong>Controls:</strong>
+          </p>
+          <p>• Click and drag to move models</p>
+          <p>• Hold Shift + drag to rotate models</p>
+        </div>
       </div>
 
-      {/* 3D Canvas */}
       <div className="flex-1">
         <Scene dragging={dragging}>
-          {models.map((chair) => (
-            <Chair key={chair.id} setDragging={setDragging} />
-          ))}
-          <Floor />
+          <Model
+            modelPath="/models/chair-1.glb"
+            scale={0.003}
+            setDragging={setDragging}
+          />
+          <Model
+            modelPath="/models/desk-1.glb"
+            position={[1, 0, 0]}
+            scale={7.5}
+            setDragging={setDragging}
+          />
+          <Room />
         </Scene>
       </div>
     </div>

@@ -11,9 +11,9 @@ interface SceneProps extends PropsWithChildren {
 
 const Scene = ({ children, dragging }: SceneProps) => {
   return (
-    <Canvas camera={{ fov: 60, position: [1, 3, 6] }}>
+    <Canvas camera={{ fov: 60, position: [5, 5, 8] }}>
       {/* Lighting */}
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={0.8} />
       <directionalLight position={[5, 5, 5]} />
 
       {/* Controls */}
