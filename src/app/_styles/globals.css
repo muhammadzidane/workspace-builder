@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+@source '../../../node_modules/@posme-id/ui/**/*.{js,ts,jsx,tsx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --color-background: var(--background);
+
+  --color-black: #222222;
+
+  --color-body-bold: #222831;
+  --color-body: #393e46;
+  --color-body-light: #758694;
+
+  --color-border: #eeeeee;
+
+  --color-danger-50: #fad9d3;
+  --color-danger-100: #f7bfb6;
+  --color-danger-200: #f49f92;
+  --color-danger-300: #f07f6e;
+  --color-danger-400: #ec5f49;
+  --color-danger-500: #e83f25;
+  --color-danger-600: #c1351f;
+  --color-danger-700: #9b2a19;
+  --color-danger-800: #742013;
+  --color-danger-900: #4d150c;
+  --color-danger-950: #2e0d07;
+  --color-danger: #e83f25;
+
+  --color-divider: #dbdade;
+
+  --color-foreground: var(--foreground);
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray: #6b7280;
+
+  --color-header: #131010;
+
+  --color-info-50: #e3f2fd;
+  --color-info-100: #bbdefb;
+  --color-info-200: #90caf9;
+  --color-info-300: #64b5f6;
+  --color-info-400: #42a5f5;
+  --color-info-500: #1e88e5;
+  --color-info-600: #1976d2;
+  --color-info-700: #1565c0;
+  --color-info-800: #0d47a1;
+  --color-info-900: #0b3b91;
+  --color-info: #1e88e5;
+
+  --color-neutral-50: #e6e6e6;
+  --color-neutral-100: #cccccc;
+  --color-neutral-200: #999999;
+  --color-neutral-300: #666666;
+  --color-neutral-400: #4d4d4d;
+  --color-neutral-500: #333333;
+  --color-neutral-600: #222222;
+  --color-neutral-700: #1a1a1a;
+  --color-neutral-800: #0d0d0d;
+  --color-neutral-900: #000000;
+  --color-neutral: #222222;
+
+  --color-primary-50: #fdf5cd;
+  --color-primary-100: #fcefad;
+  --color-primary-200: #fae782;
+  --color-primary-300: #f8df58;
+  --color-primary-400: #f7d72f;
+  --color-primary-500: #f5cf05;
+  --color-primary-600: #ccad04;
+  --color-primary-700: #a38a03;
+  --color-primary-800: #7b6803;
+  --color-primary-900: #524502;
+  --color-primary-950: #312901;
+  --color-primary: #f5cf05;
+
+  --color-screen-background: #f8fafc;
+
+  --color-secondary-50: #cce0fe;
+  --color-secondary-100: #aaccfd;
+  --color-secondary-200: #80b2fc;
+  --color-secondary-300: #5598fa;
+  --color-secondary-400: #2a7ff9;
+  --color-secondary-500: #0065f8;
+  --color-secondary-600: #0054cf;
+  --color-secondary-700: #0043a5;
+  --color-secondary-800: #00337c;
+  --color-secondary-900: #002253;
+  --color-secondary-950: #001432;
+  --color-secondary: #0065f8;
+
+  --color-success-50: #e7eeda;
+  --color-success-100: #d8e3c1;
+  --color-success-200: #c4d6a3;
+  --color-success-300: #b0c884;
+  --color-success-400: #9dba65;
+  --color-success-500: #89ac46;
+  --color-success-600: #728f3a;
+  --color-success-700: #5b732e;
+  --color-success-800: #455623;
+  --color-success-900: #2e3917;
+  --color-success-950: #1b220e;
+  --color-success: #5b732e;
+
+  --color-warning-50: #fff8e1;
+  --color-warning-100: #ffecb3;
+  --color-warning-200: #ffe082;
+  --color-warning-300: #ffd54f;
+  --color-warning-400: #ffca28;
+  --color-warning-500: #ffb300;
+  --color-warning-600: #ffa000;
+  --color-warning-700: #ff8f00;
+  --color-warning-800: #ff6f00;
+  --color-warning-900: #ea580c;
+  --color-warning: #ffb300;
+
+  --font-sans: var(--font-poppins), sans-serif;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: var(--font-poppins);
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+/* Scrollbar */
+/* ::-webkit-scrollbar {
+  width: 8px;
+  margin: 20px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bdbdbd;
+  border-radius: 25px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+} */
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dialog-overlay-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-dialog-overlay-in {
+  animation: dialog-overlay-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dialog-content-in {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-dialog-content-in {
+  animation: dialog-content-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
