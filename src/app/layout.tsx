@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   description: "",
-  title: "Workspace Builder",
+  title: "Monis Rent",
 };
 
 const RootLayout = ({ children }: Readonly<React.PropsWithChildren>) => {

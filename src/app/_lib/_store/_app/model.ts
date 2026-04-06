@@ -4,7 +4,7 @@ import { StateCreator } from "zustand";
 
 export type ModelsSlice = {
   addModel: (model: ModelData) => void;
-  clearModels: () => void;
+  clearModel: () => void;
   models: ModelData[];
 };
 
@@ -19,7 +19,7 @@ export const createModelsSlice: StateCreator<
       models: [...state.models, model],
     })),
 
-  clearModels: () => set({ models: [] }),
+  clearModel: () => set({ models: [] }),
 
   models: [],
 });

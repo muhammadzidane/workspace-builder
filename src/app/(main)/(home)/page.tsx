@@ -3,9 +3,11 @@
 
 import { Suspense, useState } from "react";
 
+import Link from "next/link";
+
 import { Button, Card, Model, Room, Scene } from "@/app/_components";
+import useStore from "@/app/_lib/_store";
 import { formatRupiah } from "@/app/_lib/_utils";
-import { ModelData } from "@/app/_types";
 
 import { MODEL_CATALOG } from "./_lib/constants";
 import { groupedModels } from "./_lib/utils";
@@ -13,7 +15,8 @@ import { groupedModels } from "./_lib/utils";
 const Home = () => {
   // Hooks
   const [dragging, setDragging] = useState(false);
-  const [models, setModels] = useState<ModelData[]>([]);
+  const models = useStore((state) => state.models);
+  const addModel = useStore((state) => state.addModel);
 
   // Data
   const totalPrice = formatRupiah(
@@ -25,17 +28,14 @@ const Home = () => {
     // eslint-disable-next-line security/detect-object-injection
     const model = MODEL_CATALOG[modelKey];
 
-    setModels((prev) => [
-      ...prev,
-      {
-        category: model.category,
-        id: Date.now(),
-        name: model.name,
-        position: [Math.random() * 4 - 2, 0, Math.random() * 4 - 2],
-        price: model.price,
-        url: model.url,
-      },
-    ]);
+    addModel({
+      id: crypto.randomUUID(),
+      name: model.name,
+      // eslint-disable-next-line react-hooks/purity
+      position: [Math.random() * 4 - 2, 0, Math.random() * 4 - 2],
+      price: model.price,
+      url: model.url,
+    });
   };
 
   return (
@@ -47,12 +47,10 @@ const Home = () => {
         <div className="flex flex-col gap-6 overflow-y-auto">
           {Object.entries(groupedModels).map(([category, items]) => (
             <div key={category}>
-              {/* Category title */}
               <h3 className="text-sm font-semibold text-slate-500 uppercase mb-2">
                 {category}
               </h3>
 
-              {/* Items */}
               <div className="grid gap-3">
                 {items.map((item) => (
                   <button
@@ -91,13 +89,16 @@ const Home = () => {
             <p className="text-xl font-semibold text-slate-800">{totalPrice}</p>
           </Card>
 
-          <Button size="large">Checkout</Button>
+          <Link className="w-full" href="/checkout">
+            <Button className="w-full" size="large">
+              Checkout
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* Scene */}
       <div className="flex-1 relative">
-        {/* Empty state hint */}
         {models.length === 0 && (
           <div className="absolute top-4 left-4 text-sm text-gray-500 z-10">
             No products yet — add one from the sidebar

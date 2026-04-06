@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 
 import { useGLTF } from "@react-three/drei";
