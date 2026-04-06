@@ -1,2 +1,2 @@
-export * from "./app";
+export * from "./_app";
 export * from "./common";
