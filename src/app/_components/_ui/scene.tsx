@@ -13,6 +13,7 @@ const Scene = ({ children, dragging }: SceneProps) => {
   return (
     <Canvas camera={{ fov: 50, position: [7, 7, 8], zoom: 0.8 }}>
       {/* Lighting */}
+
       <ambientLight intensity={0.8} />
       <directionalLight position={[5, 5, 5]} />
 

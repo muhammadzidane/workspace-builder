@@ -3,7 +3,7 @@
 
 import { Suspense, useState } from "react";
 
-import { Model, Room, Scene } from "@/app/_components";
+import { Card, Model, Room, Scene } from "@/app/_components";
 
 import { MODEL_CATALOG } from "./_lib/constants";
 import { groupedModels } from "./_lib/utils";
@@ -11,14 +11,20 @@ import { groupedModels } from "./_lib/utils";
 interface ModelData {
   id: number;
   position: [number, number, number];
+  price: number;
   url: string;
 }
 
 const Home = () => {
+  // Hooks
   const [dragging, setDragging] = useState(false);
   const [models, setModels] = useState<ModelData[]>([]);
 
-  const addModel = (modelKey: keyof typeof MODEL_CATALOG) => {
+  // Data
+  const totalPrice = models.reduce((sum, model) => sum + model.price, 0);
+
+  // Handlers
+  const handleAddModel = (modelKey: keyof typeof MODEL_CATALOG) => {
     // eslint-disable-next-line security/detect-object-injection
     const model = MODEL_CATALOG[modelKey];
 
@@ -54,9 +60,9 @@ const Home = () => {
                 {items.map((item) => (
                   <button
                     onClick={() =>
-                      addModel(item.key as keyof typeof MODEL_CATALOG)
+                      handleAddModel(item.key as keyof typeof MODEL_CATALOG)
                     }
-                    className="flex flex-col items-start rounded-xl border p-3 bg-slate-50 hover:bg-slate-100 hover:shadow transition"
+                    className="cursor-pointer flex flex-col items-start rounded-xl border p-3 bg-slate-50 hover:bg-slate-100 hover:shadow transition"
                     key={item.key}
                   >
                     <span className="font-medium text-slate-800">
@@ -73,11 +79,21 @@ const Home = () => {
         </div>
 
         {/* Controls */}
-        <div className="mt-auto space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600 shadow-sm">
-          <p className="font-semibold text-slate-800">Controls</p>
-          <p>• Drag to move</p>
-          <p>• Shift/Ctrl/Alt + drag to rotate</p>
-          <p>• Scroll to fine rotate</p>
+        <div className="flex flex-col gap-4 mt-auto">
+          <Card>
+            <p className="text-sm text-slate-500">Total</p>
+            <p className="text-xl font-semibold text-slate-800">
+              ${totalPrice.toFixed(2)}
+            </p>
+          </Card>
+          <Card className="flex flex-col gap-2">
+            <p className="font-semibold text-slate-800">Controls</p>
+            <p className="text-xs text-slate-600">• Drag to move</p>
+            <p className="text-xs text-slate-600">
+              • Shift/Ctrl/Alt + drag to rotate
+            </p>
+            <p className="text-xs text-slate-600">• Scroll to fine rotate</p>
+          </Card>
         </div>
       </div>
 
