@@ -1,8 +1,8 @@
 import { RoundedBoxGeometry } from "@react-three/drei";
 
 const Room = () => {
-  const roomSize = 6.3;
-  const wallHeight = 3;
+  const roomSize = 8;
+  const wallHeight = 3.6;
   const wallThickness = 0.1;
 
   return (

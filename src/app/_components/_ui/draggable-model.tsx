@@ -1,10 +1,20 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { ThreeEvent, useThree } from "@react-three/fiber";
 
 import * as THREE from "three";
+
+const isEmissiveMaterial = (mat: THREE.Material): mat is EmissiveMaterial => {
+  return "emissive" in mat && mat.emissive instanceof THREE.Color;
+};
+
+type EmissiveMaterial =
+  | THREE.MeshLambertMaterial
+  | THREE.MeshPhongMaterial
+  | THREE.MeshPhysicalMaterial
+  | THREE.MeshStandardMaterial;
 
 type Props = {
   children: React.ReactNode;
@@ -20,7 +30,50 @@ const DraggableModel = ({ children, initialPosition, setDragging }: Props) => {
 
   const { camera, pointer, raycaster } = useThree();
 
-  // Plane untuk drag (lantai)
+  const setHighlight = (enabled: boolean) => {
+    if (!ref.current) return;
+
+    ref.current.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        const material = child.material;
+
+        const applyHighlight = (mat: THREE.Material) => {
+          if (!isEmissiveMaterial(mat)) return;
+
+          if (enabled) {
+            if (!mat.userData.originalEmissive) {
+              mat.userData.originalEmissive = mat.emissive.clone();
+              mat.userData.originalEmissiveIntensity =
+                mat.emissiveIntensity ?? 0;
+            }
+
+            mat.emissive = new THREE.Color(0x4dd0e1);
+            mat.emissiveIntensity = 0.35;
+          } else if (mat.userData.originalEmissive) {
+            mat.emissive.copy(mat.userData.originalEmissive);
+            mat.emissiveIntensity = mat.userData.originalEmissiveIntensity ?? 0;
+
+            delete mat.userData.originalEmissive;
+            delete mat.userData.originalEmissiveIntensity;
+          }
+        };
+
+        if (Array.isArray(material)) {
+          material.forEach((mat) => applyHighlight(mat));
+        } else {
+          applyHighlight(material);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      setHighlight(false);
+    };
+  }, []);
+
+  // Plane floor
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   const intersectPoint = new THREE.Vector3();
 
@@ -33,6 +86,7 @@ const DraggableModel = ({ children, initialPosition, setDragging }: Props) => {
     dragging.current = true;
     rotating.current = e.shiftKey || e.ctrlKey || e.altKey; // Hold Shift/Ctrl/Alt to rotate
     setDragging?.(true);
+    setHighlight(true);
 
     lastPointerPosition.current = { x: pointer.x, y: pointer.y };
     setCursor("grabbing");
@@ -44,6 +98,7 @@ const DraggableModel = ({ children, initialPosition, setDragging }: Props) => {
     dragging.current = false;
     rotating.current = false;
     setDragging?.(false);
+    setHighlight(false);
     setCursor("grab");
 
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
@@ -76,6 +131,7 @@ const DraggableModel = ({ children, initialPosition, setDragging }: Props) => {
     dragging.current = false;
     rotating.current = false;
     setDragging?.(false);
+    setHighlight(false);
     setCursor("auto");
   };
 
