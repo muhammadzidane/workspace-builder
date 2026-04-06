@@ -4,7 +4,7 @@ import React from "react";
 
 import { Card } from "@/app/_components";
 import useStore from "@/app/_lib/_store";
-import { formatRupiah } from "@/app/_lib/_utils";
+import { formatUSD } from "@/app/_lib/_utils";
 
 const ItemCard = () => {
   // Hooks
@@ -27,7 +27,7 @@ const ItemCard = () => {
                 <p className="font-medium text-slate-800">{model.name}</p>
               </div>
               <p className="text-slate-700 font-medium">
-                {formatRupiah(model.price)}
+                {formatUSD(model.price)}
               </p>
             </div>
           ))}

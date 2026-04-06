@@ -9,8 +9,8 @@ import { Button } from "@/app/_components";
 const ActionButtons = () => {
   return (
     <div className="flex gap-3 justify-center">
-      <Link href="/design">
-        <Button variant="outline">Kembali ke Beranda</Button>
+      <Link href="/">
+        <Button variant="outline">Back to Home</Button>
       </Link>
     </div>
   );

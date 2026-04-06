@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { Button, Card, Model, Room, Scene } from "@/app/_components";
 import useStore from "@/app/_lib/_store";
-import { formatRupiah } from "@/app/_lib/_utils";
+import { formatUSD } from "@/app/_lib/_utils";
 
 import { MODEL_CATALOG } from "./_lib/constants";
 import { groupedModels } from "./_lib/utils";
@@ -17,9 +17,10 @@ const DesignPage = () => {
   const [dragging, setDragging] = useState(false);
   const models = useStore((state) => state.models);
   const addModel = useStore((state) => state.addModel);
+  const clearModel = useStore((state) => state.clearModel);
 
   // Data
-  const totalPrice = formatRupiah(
+  const totalPrice = formatUSD(
     models.reduce((sum, model) => sum + model.price, 0),
   );
 
@@ -42,6 +43,12 @@ const DesignPage = () => {
     <div className="h-screen flex">
       {/* Sidebar */}
       <div className="w-1/4 p-5 flex flex-col gap-6 border-r bg-white">
+        <Link href="./">
+          <Button className="w-fit" variant="outline">
+            ← Back
+          </Button>
+        </Link>
+
         <h2 className="text-lg font-semibold text-slate-800">Catalog</h2>
 
         <div className="flex flex-col gap-6 overflow-y-auto">
@@ -64,7 +71,7 @@ const DesignPage = () => {
                       {item.name}
                     </span>
                     <span className="text-sm text-slate-500">
-                      {formatRupiah(item.price)}
+                      {formatUSD(item.price)} / Month
                     </span>
                   </button>
                 ))}
@@ -89,11 +96,25 @@ const DesignPage = () => {
             <p className="text-xl font-semibold text-slate-800">{totalPrice}</p>
           </Card>
 
-          <Link className="w-full" href="/checkout">
-            <Button className="w-full" size="large">
-              Checkout
+          <div className="flex flex-col gap-2">
+            <Link className="w-full" href="/checkout">
+              <Button
+                className="w-full"
+                disabled={models.length <= 0}
+                size="large"
+              >
+                Checkout
+              </Button>
+            </Link>
+            <Button
+              className="w-full"
+              onClick={clearModel}
+              size="large"
+              variant="ghost"
+            >
+              Reset
             </Button>
-          </Link>
+          </div>
         </div>
       </div>
 

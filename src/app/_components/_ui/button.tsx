@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 "use client";
 
 import { ButtonHTMLAttributes } from "react";
@@ -11,6 +12,7 @@ type ButtonProps = {
 
 const Button = ({
   className = "",
+  disabled,
   size = "medium",
   variant = "default",
   ...props
@@ -30,10 +32,18 @@ const Button = ({
     small: "px-2 py-1 text-xs",
   };
 
+  const disabledStyles = "opacity-50 cursor-not-allowed pointer-events-none";
+
   return (
     <button
-      // eslint-disable-next-line security/detect-object-injection
-      className={clsx(baseStyles, variants[variant], sizes[size], className)}
+      className={clsx(
+        baseStyles,
+        variants[variant],
+        sizes[size],
+        disabled && disabledStyles,
+        className,
+      )}
+      disabled={disabled}
       {...props}
     />
   );

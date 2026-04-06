@@ -4,7 +4,7 @@ import React from "react";
 
 import { Button, Card } from "@/app/_components";
 import useStore from "@/app/_lib/_store";
-import { formatRupiah } from "@/app/_lib/_utils";
+import { formatUSD } from "@/app/_lib/_utils";
 
 const CheckoutCard = () => {
   const models = useStore((state) => state.models);
@@ -32,7 +32,7 @@ const CheckoutCard = () => {
                     <p className="font-medium text-slate-800">{model.name}</p>
                   </div>
                   <p className="text-slate-700 font-medium">
-                    {formatRupiah(model.price)}
+                    {formatUSD(model.price)}
                   </p>
                 </div>
               ))}
@@ -44,7 +44,7 @@ const CheckoutCard = () => {
         <Card className="flex justify-between items-center">
           <p className="font-semibold text-slate-800">Total</p>
           <p className="text-xl font-bold text-slate-900">
-            {formatRupiah(totalPrice)}
+            {formatUSD(totalPrice)}
           </p>
         </Card>
 
