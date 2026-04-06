@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import Link from "next/link";
+
 import { Button } from "@/app/_components";
 
 const HeroSection = () => {
@@ -15,7 +17,9 @@ const HeroSection = () => {
         and accessories, then rent everything in one click.
       </p>
       <div className="flex justify-center gap-4">
-        <Button>Start Designing</Button>
+        <Link href="/design">
+          <Button>Start Designing</Button>
+        </Link>
         <Button variant="outline">View Templates</Button>
       </div>
     </section>

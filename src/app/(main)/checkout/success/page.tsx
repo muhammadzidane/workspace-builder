@@ -1,6 +1,11 @@
+import { Metadata } from "next";
+
 import { Card } from "@/app/_components";
 
 import { ActionButtons } from "./_components";
+import { meta } from "./_lib/meta";
+
+export const metadata: Metadata = meta;
 
 const CheckoutSuccessPage = () => {
   return (

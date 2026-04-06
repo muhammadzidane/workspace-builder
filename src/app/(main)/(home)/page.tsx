@@ -1,9 +1,14 @@
 import React from "react";
 
+import { Metadata } from "next";
+
 import { TemplateCard } from "@/app/_components";
 
 import { BuildFromStrach, HeroSection, HowItWorks } from "./_components";
 import { TEMPLATES } from "./_lib/constants";
+import { meta } from "./_lib/meta";
+
+export const metadata: Metadata = meta;
 
 const HomePage = () => {
   return (

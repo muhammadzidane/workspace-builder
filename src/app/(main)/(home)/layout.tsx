@@ -1,6 +1,7 @@
 import React from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { Button } from "@/app/_components";
 
@@ -15,7 +16,9 @@ const HomeLayout = ({ children }: React.PropsWithChildren) => {
           src="/images/monis-main.png"
           width={118}
         />
-        <Button>Start Designing</Button>
+        <Link href="/design">
+          <Button>Start Designing</Button>
+        </Link>
       </header>
 
       {children}
