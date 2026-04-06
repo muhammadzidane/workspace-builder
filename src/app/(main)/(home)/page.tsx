@@ -3,17 +3,12 @@
 
 import { Suspense, useState } from "react";
 
-import { Card, Model, Room, Scene } from "@/app/_components";
+import { Button, Card, Model, Room, Scene } from "@/app/_components";
+import { formatRupiah } from "@/app/_lib/_utils";
+import { ModelData } from "@/app/_types";
 
 import { MODEL_CATALOG } from "./_lib/constants";
 import { groupedModels } from "./_lib/utils";
-
-interface ModelData {
-  id: number;
-  position: [number, number, number];
-  price: number;
-  url: string;
-}
 
 const Home = () => {
   // Hooks
@@ -21,7 +16,9 @@ const Home = () => {
   const [models, setModels] = useState<ModelData[]>([]);
 
   // Data
-  const totalPrice = models.reduce((sum, model) => sum + model.price, 0);
+  const totalPrice = formatRupiah(
+    models.reduce((sum, model) => sum + model.price, 0),
+  );
 
   // Handlers
   const handleAddModel = (modelKey: keyof typeof MODEL_CATALOG) => {
@@ -69,7 +66,7 @@ const Home = () => {
                       {item.name}
                     </span>
                     <span className="text-sm text-slate-500">
-                      ${item.price}
+                      {formatRupiah(item.price)}
                     </span>
                   </button>
                 ))}
@@ -80,12 +77,6 @@ const Home = () => {
 
         {/* Controls */}
         <div className="flex flex-col gap-4 mt-auto">
-          <Card>
-            <p className="text-sm text-slate-500">Total</p>
-            <p className="text-xl font-semibold text-slate-800">
-              ${totalPrice.toFixed(2)}
-            </p>
-          </Card>
           <Card className="flex flex-col gap-2">
             <p className="font-semibold text-slate-800">Controls</p>
             <p className="text-xs text-slate-600">• Drag to move</p>
@@ -94,6 +85,13 @@ const Home = () => {
             </p>
             <p className="text-xs text-slate-600">• Scroll to fine rotate</p>
           </Card>
+
+          <Card>
+            <p className="text-sm text-slate-500">Total</p>
+            <p className="text-xl font-semibold text-slate-800">{totalPrice}</p>
+          </Card>
+
+          <Button size="large">Checkout</Button>
         </div>
       </div>
 
@@ -102,7 +100,7 @@ const Home = () => {
         {/* Empty state hint */}
         {models.length === 0 && (
           <div className="absolute top-4 left-4 text-sm text-gray-500 z-10">
-            No models yet — add one from the sidebar
+            No products yet — add one from the sidebar
           </div>
         )}
 
