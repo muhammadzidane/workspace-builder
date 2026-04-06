@@ -21,7 +21,7 @@ const ActionButtons = () => {
 
   return (
     <div className="flex gap-3 justify-end">
-      <Link href="/">
+      <Link href="/design">
         <Button variant="outline">Back</Button>
       </Link>
       <Button onClick={handleConfirmCheckout}>Confirm Checkout</Button>

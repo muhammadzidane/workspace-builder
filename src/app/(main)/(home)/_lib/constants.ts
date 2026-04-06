@@ -1,20 +1,22 @@
-export const MODEL_CATALOG = {
-  chair1: {
-    category: "Furniture",
-    name: "Chair 1",
-    price: 1200000,
-    url: "/models/chair-1.glb",
+export const TEMPLATES = [
+  {
+    desc: "Minimal desk with essentials for solo work",
+    image: "/images/dummies/freelance-setup.webp",
+    title: "Freelancer Setup",
   },
-  chair2: {
-    category: "Furniture",
-    name: "Chair 2",
-    price: 900000,
-    url: "/models/chair-2.glb",
+  {
+    desc: "Optimized for developers and multitaskers",
+    image: "/images/dummies/dual-monitor-setup.webp",
+    title: "Dual Monitor Setup",
   },
-  desk1: {
-    category: "Furniture",
-    name: "Desk 1",
-    price: 2900000,
-    url: "/models/desk-1.glb",
+  {
+    desc: "Perfect for designers and content creators",
+    image: "/images/dummies/creative-studio.webp",
+    title: "Creative Studio",
   },
-} as const;
+  {
+    desc: "Clean and distraction-free workspace",
+    image: "/images/dummies/clean-studio.webp",
+    title: "Minimal Setup",
+  },
+];
